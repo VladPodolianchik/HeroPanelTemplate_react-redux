@@ -1,29 +1,11 @@
 const initialState = {
-    heroes: [],
-    heroesLoadingStatus: 'idle',
     filters: [],
     filtersLoadingStatus: 'idle',
     activeFilter: 'all',  // фильтр, к-ый на данный момент применяется, был введен дополнительно
 }
 
-const reducer = (state = initialState, action) => {
+const filters = (state = initialState, action) => {
     switch (action.type) {
-        case 'HEROES_FETCHING':
-            return {
-                ...state,
-                heroesLoadingStatus: 'loading'
-            }
-        case 'HEROES_FETCHED':
-            return {
-                ...state,
-                heroes: action.payload,
-                heroesLoadingStatus: 'idle'
-            }
-        case 'HEROES_FETCHING_ERROR':
-            return {
-                ...state,
-                heroesLoadingStatus: 'error'
-            }
         case 'FILTERS_FETCHING':
             return {
                 ...state,
@@ -45,18 +27,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 activeFilter: action.payload
             }
-        case 'HERO_CREATED':
-            return {
-                ...state,
-                heroes: [...state.heroes, action.payload]
-            }
-        case 'HERO_DELETED': 
-            return {
-                ...state,
-                heroes: state.heroes.filter(item => item.id !== action.payload)
-            }
         default: return state
     }
 }
 
-export default reducer;
+export default filters;

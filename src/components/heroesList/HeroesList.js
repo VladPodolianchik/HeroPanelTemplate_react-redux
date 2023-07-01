@@ -2,6 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
+import { createSelector } from 'reselect';
 
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -15,7 +16,34 @@ import './heroesList.css';
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-    const {filteredHeroes, heroesLoadingStatus} = useSelector(state => state);
+
+    // const someState = useSelector(state => ({     Так не делать, т.к. идет строгое сравнение с обьектом до этого и т.к. создаются копии обьекта
+    //     activeFilter: state.filters.activeFilter,  они никогда не будут равны и перем. someState будет каждый раз создаваться заново
+    //     heroes: state.heroes.heroes                и все зависящие от нее компоненты также перерисовываться
+    // }))
+
+    const filteredHeroesSelector = createSelector(
+        (state) => state.filters.activeFilter,
+        (state) => state.heroes.heroes,
+        (filter, heroes) => {  // filter - это из первой строки со стейтом, heroes - из второй
+            if (filter === 'all') {
+                return heroes;
+            } else {
+                return heroes.filter(item => item.element === filter)
+            }
+        }
+    );
+
+    // const filteredHeroes = useSelector(state => {
+    //     if (state.filters.activeFilter === 'all') {
+    //         return state.heroes.heroes;
+    //     } else {
+    //         return state.heroes.heroes.filter(item => item.element === state.filters.activeFilter)
+    //     }
+    // })
+
+    const filteredHeroes = useSelector(filteredHeroesSelector)
+    const heroesLoadingStatus = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
