@@ -5,6 +5,12 @@
       "name": "Первый герой",
       "description": "Первый герой в рейтинге!",
       "element": "fire"
+    },
+    {
+      "id": "3d5ce5cf-e140-410b-a833-8aac996d0ff0",
+      "name": "Second hero",
+      "description": "Nothing",
+      "element": "earth"
     }
   ],
   "filters": [
