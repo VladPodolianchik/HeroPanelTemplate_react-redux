@@ -16,18 +16,18 @@ const filtersSlice = createSlice({
                 state.filters = action.payload;
             },
             filtersFetchingError: state => {state.filtersLoadingStatus = 'error'},
-            filterChanged: (state, action) => {
+            filtersChanged: (state, action) => {
                 state.activeFilter = action.payload;
             } 
         }
 });
 
-const {actions, reducer} = filterSlice;
+const {actions, reducer} = filtersSlice;
 
 export default reducer;
 export const {
     filtersFetching,
     filtersFetched,
     filtersFetchingError,
-    filterChanged
+    filtersChanged
 } = actions;
